@@ -8,18 +8,17 @@ namespace TernaryEmulator
 
         public Trit(sbyte value)
         {
-            m_trit = ToTrit(value).ToSByte(null);
+            m_trit = ConvertToTritSByte(value);
         }
 
-        public static Trit operator+ (Trit a, Trit b)
+        public static Trit operator +(Trit a, Trit b)
         {
             sbyte sb_a = a.ToSByte(null);
             sbyte sb_b = a.ToSByte(null);
-            
-            return new Trit((sbyte) (sb_a + sb_b));
 
+            return new Trit((sbyte) (sb_a + sb_b));
         }
- 
+
         public int CompareTo(object? obj)
         {
             throw new NotImplementedException();
@@ -79,13 +78,27 @@ namespace TernaryEmulator
         {
             return m_trit;
         }
-        
+
+        public static sbyte ConvertToTritSByte(sbyte value)
+        {
+            var octal = value & 0b11;
+            
+            switch (octal)
+            {
+                case 1: return 1; // 01
+                case 2: return -1; // 10
+                case 0: // 00
+                case 3: return 0; // 11, we don't use it, like in "Сетунь"
+                default: throw new Exception();
+            }
+        }
+
         public static Trit ToTrit(sbyte value)
         {
             value &= 0b11;
-            return new Trit((sbyte)(value - 1));
+            return new Trit((sbyte) (value - 2));
         }
-        
+
         public float ToSingle(IFormatProvider? provider)
         {
             throw new NotImplementedException();
