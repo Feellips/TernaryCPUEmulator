@@ -19,6 +19,24 @@ namespace TernaryEmulator
             return new Trit((sbyte) (sb_a + sb_b));
         }
 
+        public static Trit operator !(Trit a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Trit operator -(Trit a)
+        {
+            return new Trit((sbyte)-a.m_trit);
+        }
+
+        public static Trit operator -(Trit a, Trit b)
+        {
+            sbyte sb_a = a.ToSByte(null);
+            sbyte sb_b = a.ToSByte(null);
+
+            return new Trit((sbyte) (sb_a - sb_b));
+        }
+        
         public int CompareTo(object? obj)
         {
             throw new NotImplementedException();
@@ -81,6 +99,9 @@ namespace TernaryEmulator
 
         public static sbyte ConvertToTritSByte(sbyte value)
         {
+            if (value < 2 && value > -2)
+                return value;
+            
             var octal = value & 0b11;
             
             switch (octal)
@@ -92,13 +113,7 @@ namespace TernaryEmulator
                 default: throw new Exception();
             }
         }
-
-        public static Trit ToTrit(sbyte value)
-        {
-            value &= 0b11;
-            return new Trit((sbyte) (value - 2));
-        }
-
+        
         public float ToSingle(IFormatProvider? provider)
         {
             throw new NotImplementedException();
@@ -131,7 +146,7 @@ namespace TernaryEmulator
 
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
-            throw new NotImplementedException();
+            return m_trit.ToString();
         }
 
         public int CompareTo(Trit other)
@@ -141,7 +156,7 @@ namespace TernaryEmulator
 
         public bool Equals(Trit other)
         {
-            throw new NotImplementedException();
+            return other.m_trit == m_trit;
         }
     }
 }
